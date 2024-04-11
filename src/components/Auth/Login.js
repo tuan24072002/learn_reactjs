@@ -1,16 +1,22 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import '../../styles/Login.scss';
 import { useNavigate } from 'react-router-dom'
 import { postLogin } from '../../services/apiServices';
 import { toast } from 'react-toastify';
 import { FaEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
+import { useDispatch } from 'react-redux';
+import { doLogin } from '../../redux/action/userAction';
+import { ImSpinner10 } from "react-icons/im";
+
 const Login = (props) => {
     // const { } = props;
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPass, setShowPass] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const validateEmail = (email) => {
         return String(email)
             .toLowerCase()
@@ -27,22 +33,29 @@ const Login = (props) => {
             toast.error('Invalid Password');
             return;
         }
+
+        setIsLoading(true)
         let data = await postLogin(email, password)
         if (data && data.EC === 0) {
+            dispatch(doLogin(data));
             toast.success(data.EM);
-            navigate('/')
+            setIsLoading(false);
+            navigate('/');
         } else if (data.EC !== 0) {
             toast.error(data.EM);
+            setIsLoading(false);
         }
     }
     const passwordField = document.getElementById('passwordField');
     const handleShowOrHidePass = () => {
-        if (!showPass && passwordField && passwordField.type) {
+        if (!showPass) {
             setShowPass(true);
-            passwordField.type = "text";
+            if (passwordField)
+                passwordField.type = "text";
         } else {
             setShowPass(false);
-            passwordField.type = "password";
+            if (passwordField)
+                passwordField.type = "password";
         }
     }
     return (
@@ -66,17 +79,21 @@ const Login = (props) => {
                     <div className='input-password'>
                         <input type='password'
                             id='passwordField'
-                            className='form-control'
                             value={password}
+                            className='form-control'
                             onChange={(e) => setPassword(e.target.value)} />
                         {
                             showPass ? <FaRegEyeSlash className='eye' onClick={() => handleShowOrHidePass()} /> : <FaEye className='eye' onClick={() => handleShowOrHidePass()} />
                         }
+
                     </div>
                 </div>
                 <span className='forgot-password'>Forgot password ?</span>
                 <div>
-                    <button className='btn btn-dark' onClick={() => handleLogin()}>Login</button>
+                    <button className='btn btn-dark' onClick={() => handleLogin()} disabled={isLoading}>
+                        {isLoading && <ImSpinner10 className="loader-icon" />}
+                        <span>Login</span>
+                    </button>
                 </div>
                 <div className='text-center' onClick={() => navigate("/")}>
                     <span className='back'>&#60;&#60; Go to Homepage</span>

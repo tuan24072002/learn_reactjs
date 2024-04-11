@@ -45,10 +45,12 @@ const Register = (props) => {
     const handleShowOrHidePass = () => {
         if (!showPass && passwordField && passwordField.type) {
             setShowPass(true);
-            passwordField.type = "text";
+            if (passwordField)
+                passwordField.type = "text";
         } else {
             setShowPass(false);
-            passwordField.type = "password";
+            if (passwordField)
+                passwordField.type = "password";
         }
     }
     return (
