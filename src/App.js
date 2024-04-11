@@ -1,35 +1,21 @@
-// import logo from './logo.svg';
+import { Outlet } from 'react-router-dom';
 import './App.scss';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { increaseCounter, decreaseCounter } from './redux/action/counterAction';
-import MyComponent from './components/MyComponent';
-import React from 'react';
-class App extends React.Component {
-  render() {
-    return (
-      <div className='app-container'>
-        <MyComponent />
-        Hello World With Tran Le Anh Tuan
+import Header from './components/Header/Header';
+const App = () => {
+  return (
+    <div className="app-container">
+      <div className='header-container'>
+        <Header />
       </div>
-    );
-  }
-}
-// const App = () => {
-//   const count = useSelector(state => state.counter.count);
-//   const dispatch = useDispatch();
+      <div className='main-container'>
+        <div className='sidenav-container'>
 
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Hello World With &amp; Tran Le Anh Tuan
-//         </p>
-//         <div>Count = {count}</div>
-//         <button onClick={() => dispatch(increaseCounter())}>Increase</button>
-//         <button onClick={() => dispatch(decreaseCounter())}>Decrease</button>
-//       </header>
-//     </div>
-//   );
-// }
+        </div>
+        <div className='app-container'>
+          <Outlet />
+        </div>
+      </div>
+    </div>
+  );
+}
 export default App;
