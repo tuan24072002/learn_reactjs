@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../../styles/Register.scss';
 import { useNavigate } from 'react-router-dom'
 import { postRegister } from '../../services/apiServices';
 import { toast } from 'react-toastify';
 import { FaEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
+import { useSelector } from 'react-redux';
 const Register = (props) => {
     // const { } = props;
+    const isAuthenticated = useSelector(state => state.user.isAuthenticated)
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -20,6 +22,11 @@ const Register = (props) => {
                 /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
             );
     };
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/');
+        }
+    }, [isAuthenticated, navigate])
     const handleRegister = async () => {
         if (!validateEmail(email)) {
             toast.error('Invalid Email');
@@ -53,6 +60,11 @@ const Register = (props) => {
                 passwordField.type = "password";
         }
     }
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            handleRegister(event);
+        }
+    };
     return (
         <div className='register-container'>
             <div className='header'>
@@ -68,7 +80,8 @@ const Register = (props) => {
                         <input type='email'
                             className='form-control'
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)} />
+                            onChange={(e) => setEmail(e.target.value)}
+                            onKeyDown={(e) => handleKeyDown(e)} />
                     </div>
                     <div className='form-group col-6'>
                         <label>Password (*)</label>
@@ -77,7 +90,8 @@ const Register = (props) => {
                                 id='passwordField'
                                 className='form-control'
                                 value={password}
-                                onChange={(e) => setPassword(e.target.value)} />
+                                onChange={(e) => setPassword(e.target.value)}
+                                onKeyDown={(e) => handleKeyDown(e)} />
                             {
                                 showPass ? <FaRegEyeSlash className='eye' onClick={() => handleShowOrHidePass()} /> : <FaEye className='eye' onClick={() => handleShowOrHidePass()} />
                             }
@@ -89,7 +103,8 @@ const Register = (props) => {
                     <input type='text'
                         className='form-control'
                         value={username}
-                        onChange={(e) => setUsername(e.target.value)} />
+                        onChange={(e) => setUsername(e.target.value)}
+                        onKeyDown={(e) => handleKeyDown(e)} />
                 </div>
                 <div className='form-group col-12 d-flex gap-2'>
                     <input type='checkbox' value={check} onChange={() => setCheck(!check)} />

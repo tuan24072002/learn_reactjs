@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import ModalUser from "./ModalUser"
-import '../../../styles/ManageUser.scss'
+import '../../../../styles/ManageUser.scss'
 import { FcPlus } from "react-icons/fc";
-import { getUserPaginate } from "../../../services/apiServices";
+import { getUserPaginate } from "../../../../services/apiServices";
 // import TableUser from "./TableUser";
 import TableUserPaginate from "./TableUserPaginate";
 const ManageUser = () => {
@@ -15,6 +15,7 @@ const ManageUser = () => {
     const [dataView, setDataView] = useState({});
     const [page, setPage] = useState(1);
     const [pageCount, setPageCount] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
     let LIMIT_PAGE = 3;
     // const loadUser = async () => {
     //     let res = await getAllUser()
@@ -27,10 +28,11 @@ const ManageUser = () => {
         if (res && res.EC === 0 && res.DT) {
             setUser(res.DT.users);
             setPageCount(res.DT.totalPages);
+            setIsLoading(false);
         }
     }, [page, LIMIT_PAGE])
     useEffect(() => {
-        // loadUser();
+        setIsLoading(true)
         loadUserPaginate();
     }, [loadUserPaginate])
     const handleClickUpdateUser = (user) => {
@@ -49,6 +51,8 @@ const ManageUser = () => {
     }
     const resetDataUpdate = () => {
         setDataUpdate({});
+        setDataView({});
+        setDataDelete({});
     }
     return (
         <div className='manage-user-container'>
@@ -60,7 +64,7 @@ const ManageUser = () => {
                     <button className="btn btn-primary d-flex align-items-center gap-1" onClick={() => { setShow(true); setStateModal('ADD'); }}><FcPlus /> Add new user</button>
                 </div>
                 <div className="table-users-container text-center">
-                    <TableUserPaginate pageCount={pageCount} loadUser={loadUserPaginate} setPage={setPage} user={user} handleClickViewUser={handleClickViewUser} handleClickUpdateUser={handleClickUpdateUser} handleClickDeleteUser={handleClickDeleteUser} setShowDelete={setShowDelete} showDelete={showDelete} dataDelete={dataDelete} />
+                    <TableUserPaginate isLoading={isLoading} pageCount={pageCount} loadUser={loadUserPaginate} setPage={setPage} user={user} handleClickViewUser={handleClickViewUser} handleClickUpdateUser={handleClickUpdateUser} handleClickDeleteUser={handleClickDeleteUser} setShowDelete={setShowDelete} showDelete={showDelete} dataDelete={dataDelete} />
                 </div>
                 <ModalUser show={show} setShow={setShow} loadUser={loadUserPaginate} stateModal={stateModal} dataUpdate={dataUpdate} resetDataUpdate={resetDataUpdate} dataView={dataView} setPage={setPage} />
             </div>

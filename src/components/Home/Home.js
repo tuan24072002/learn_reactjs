@@ -1,7 +1,10 @@
 import React from 'react'
 import video_homepage from '../../assets/audios/video-homepage.mp4';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom'
 const Home = () => {
-
+    const navigate = useNavigate();
+    const isAuthenticated = useSelector(state => state.user.isAuthenticated)
     return (
         <div className='homepage-container'>
             <div className='homepage-video'>
@@ -15,7 +18,9 @@ const Home = () => {
                 <div className='title-2'>Get more data—like signups, feedback, and anything else
                     —with forms designed to be <b>refreshingly different.</b></div>
                 <div className='title-3'>
-                    <button>Get started - it's free</button>
+                    {isAuthenticated
+                        ? <button onClick={() => navigate('/users')}>Doing Quiz Now</button>
+                        : <button onClick={() => navigate('/login')}>Get started - it's free</button>}
                 </div>
             </div>
         </div>

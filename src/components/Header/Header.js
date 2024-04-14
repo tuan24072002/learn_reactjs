@@ -9,6 +9,10 @@ function Header() {
   const navigate = useNavigate();
   const isAuthenticated = useSelector(state => state.user.isAuthenticated)
   const account = useSelector(state => state.user.account)
+  const handleLogout = () => {
+    localStorage.removeItem('persist:root');
+    window.location.replace('/login');
+  }
   return (
     <Navbar expand="lg" className="bg-body-tertiary bg-light">
       <Container>
@@ -18,7 +22,9 @@ function Header() {
           <Nav className="me-auto">
             <NavLink className='nav-link' to={"/"}>Home</NavLink>
             <NavLink className='nav-link' to={"/users"}>User</NavLink>
-            <NavLink className='nav-link' to={"/admins"}>Admin</NavLink>
+            {
+              account.role === 'ADMIN' && <NavLink className='nav-link' to={"/admins"}>Admin</NavLink>
+            }
           </Nav>
           <Nav className='d-flex gap-3'>
             {
@@ -26,7 +32,7 @@ function Header() {
                 <>
                   <NavDropdown title={account.username} id='basic-nav-dropdown'>
                     <NavDropdown.Item>Profile</NavDropdown.Item>
-                    <NavDropdown.Item onClick={() => navigate('/login')}>Log out</NavDropdown.Item>
+                    <NavDropdown.Item onClick={() => handleLogout()}>Log out</NavDropdown.Item>
                   </NavDropdown>
                 </> :
                 <>

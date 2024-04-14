@@ -6,7 +6,7 @@ import { FcPlus } from "react-icons/fc";
 import { useCallback, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'react-toastify';
-import { postCreateUser, putUpdateUser } from '../../../services/apiServices';
+import { postCreateUser, putUpdateUser } from '../../../../services/apiServices';
 import _ from 'lodash';
 function ModalUser(props) {
     const { show, setShow, loadUser, stateModal, dataUpdate, resetDataUpdate, dataView } = props;
@@ -117,8 +117,8 @@ function ModalUser(props) {
                 onHide={handleClose}
                 backdrop={'static'}
                 className='modal-adduser'>
-                <Modal.Header closeButton>
-                    <Modal.Title>
+                <Modal.Header>
+                    <Modal.Title className={`fw-bold ${stateModal === 'ADD' ? 'alert alert-primary w-100' : stateModal === 'UPDATE' ? 'alert alert-success w-100' : 'alert alert-secondary w-100'}`}>
                         {
                             stateModal !== '' && stateModal === 'ADD' ? "Add new user" : stateModal !== '' && stateModal === 'UPDATE' ? "Update user" : stateModal !== '' && stateModal === 'VIEW' ? "View user" : ""
                         }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../styles/Login.scss';
 import { useNavigate } from 'react-router-dom'
 import { postLogin } from '../../services/apiServices';
@@ -8,15 +8,21 @@ import { FaRegEyeSlash } from "react-icons/fa";
 import { useDispatch } from 'react-redux';
 import { doLogin } from '../../redux/action/userAction';
 import { ImSpinner10 } from "react-icons/im";
-
+import { useSelector } from 'react-redux';
 const Login = (props) => {
     // const { } = props;
+    const isAuthenticated = useSelector(state => state.user.isAuthenticated)
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPass, setShowPass] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/');
+        }
+    }, [isAuthenticated, navigate])
     const validateEmail = (email) => {
         return String(email)
             .toLowerCase()
@@ -58,6 +64,11 @@ const Login = (props) => {
                 passwordField.type = "password";
         }
     }
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            handleLogin(event);
+        }
+    };
     return (
         <div className='login-container'>
             <div className='header'>
@@ -72,7 +83,8 @@ const Login = (props) => {
                     <input type='email'
                         className='form-control'
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)} />
+                        onChange={(e) => setEmail(e.target.value)}
+                        onKeyDown={(e) => handleKeyDown(e)} />
                 </div>
                 <div className='form-group'>
                     <label>Password</label>
@@ -81,7 +93,8 @@ const Login = (props) => {
                             id='passwordField'
                             value={password}
                             className='form-control'
-                            onChange={(e) => setPassword(e.target.value)} />
+                            onChange={(e) => setPassword(e.target.value)}
+                            onKeyDown={(e) => handleKeyDown(e)} />
                         {
                             showPass ? <FaRegEyeSlash className='eye' onClick={() => handleShowOrHidePass()} /> : <FaEye className='eye' onClick={() => handleShowOrHidePass()} />
                         }
@@ -90,7 +103,11 @@ const Login = (props) => {
                 </div>
                 <span className='forgot-password'>Forgot password ?</span>
                 <div>
-                    <button className='btn btn-dark' onClick={() => handleLogin()} disabled={isLoading}>
+                    <button
+                        className='btn btn-dark'
+                        onClick={() => handleLogin()}
+                        disabled={isLoading}
+                        onSubmit={() => handleLogin()}>
                         {isLoading && <ImSpinner10 className="loader-icon" />}
                         <span>Login</span>
                     </button>

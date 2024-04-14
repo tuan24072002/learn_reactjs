@@ -52,10 +52,10 @@ const SideBar = (props) => {
                         </MenuItem>
                     </Menu>
                     <Menu iconShape="circle">
-
                         <SubMenu
                             title={"Features"}
                             icon={<FaGem />}
+                            defaultOpen
                         >
                             <MenuItem>Manage Users<Link to={'/admins/manage-users'} /></MenuItem>
                             <MenuItem>Manage Quizzes<Link to={'/admins/manage-quizzes'} /></MenuItem>
@@ -72,7 +72,7 @@ const SideBar = (props) => {
                         }}
                     >
                         <a
-                            href="https://github.com/azouaoui-med/react-pro-sidebar"
+                            href="https://github.com/tuan24072002/learn_reactjs"
                             target="_blank"
                             className="sidebar-btn"
                             rel="noopener noreferrer"

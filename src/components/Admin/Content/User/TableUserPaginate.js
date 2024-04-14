@@ -1,10 +1,9 @@
 import React from 'react'
 import ModalDeleteUser from './ModalDeleteUser';
 import ReactPaginate from 'react-paginate'
-
+import { ImSpinner10 } from "react-icons/im";
 const TableUserPaginate = (props) => {
-    const { pageCount, loadUser, setPage, user, handleClickUpdateUser, handleClickDeleteUser, handleClickViewUser, showDelete, setShowDelete, dataDelete } = props
-
+    const { isLoading, pageCount, loadUser, setPage, user, handleClickUpdateUser, handleClickDeleteUser, handleClickViewUser, showDelete, setShowDelete, dataDelete } = props
 
     const handlePageClick = async (event) => {
         setPage(+event.selected + 1);
@@ -38,7 +37,7 @@ const TableUserPaginate = (props) => {
                                 </tr>
 
                             )
-                        }) : <tr><td colSpan={5} className='text-danger fw-bold'>Not found data</td></tr>
+                        }) : isLoading ? <tr><td colSpan={5}><span className='text-secondary fw-bold'>Loading...</span><ImSpinner10 className="loader-icon" /></td></tr> : <tr><td colSpan={5} className='text-danger fw-bold'>Not found data</td></tr>
                     }
                 </tbody>
                 <ModalDeleteUser show={showDelete} loadUser={loadUser} setShow={setShowDelete} dataDelete={dataDelete} setPage={setPage} />
