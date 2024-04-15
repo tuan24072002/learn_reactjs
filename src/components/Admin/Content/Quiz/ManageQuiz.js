@@ -5,7 +5,6 @@ import { getAllQuiz } from '../../../../services/apiServices'
 import ModalQuiz from './ModalQuiz';
 import TableQuiz from './TableQuiz';
 import { toast } from 'react-toastify';
-import TestScroll from './TestScroll';
 const ManageQuiz = (props) => {
     const [show, setShow] = useState(false);
     const [showDelete, setShowDelete] = useState(false);
@@ -67,7 +66,6 @@ const ManageQuiz = (props) => {
                         dataDelete={dataDelete}
                         handleClickDeleteQuiz={handleClickDeleteQuiz}
                         loadDataQuiz={loadDataQuiz} />
-                    <TestScroll />
                 </div>
                 <ModalQuiz resetDataUpdate={resetDataUpdate} dataView={dataView} show={show} setShow={setShow} stateModal={stateModal} loadDataQuiz={loadDataQuiz} dataUpdate={dataUpdate} />
             </div>

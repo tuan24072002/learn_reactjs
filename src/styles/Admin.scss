@@ -1,6 +1,7 @@
 .admin-container{
     display: flex;
     .admin-sidebar{
+      z-index: 1;
         .pro-sidebar{
             height: 100vh!important;
             .sidebar-btn-wrapper {
@@ -48,6 +49,8 @@
         }
       }
       .admin-main{
+        overflow: scroll;
+        height: calc(100vh - 40px);
         .user-pagination{
           .pagination{
               display: flex;

@@ -3,6 +3,7 @@ import SideBar from './SideBar'
 import "../../styles/Admin.scss"
 import { FaBars } from 'react-icons/fa'
 import { Outlet } from 'react-router-dom';
+import PerfectScrollbar from 'react-perfect-scrollbar'
 const Admin = () => {
     const [collapsed, setCollapsed] = useState(false);
     return (
@@ -14,10 +15,11 @@ const Admin = () => {
                 <div className='admin-header' onClick={() => setCollapsed(!collapsed)}>
                     <FaBars />
                 </div>
-                <div className='admin-main'>
-                    <Outlet />
-                </div>
-
+                <PerfectScrollbar>
+                    <div className='admin-main'>
+                        <Outlet />
+                    </div>
+                </PerfectScrollbar>
             </div>
         </div>
     )

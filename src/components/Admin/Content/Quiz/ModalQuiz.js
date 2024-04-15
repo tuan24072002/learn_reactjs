@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react'
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { FcPlus } from "react-icons/fc";
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'react-toastify';
 import { postCreateQuiz, putUpdateQuiz } from '../../../../services/apiServices';
 import Select from 'react-select';
 import _ from 'lodash';
+
 const options = [
     { value: 'EASY', label: 'EASY' },
     { value: 'MEDIUM', label: 'MEDIUM' },
@@ -147,12 +147,6 @@ const ModalQuiz = (props) => {
                         </div>
                         <div className="col-md-6">
                             <label className="form-label">Difficulty</label>
-                            {/* <input
-                                value={difficulty}
-                                onChange={(e) => setDifficulty(e.target.value)}
-                                type="text"
-                                className="form-control"
-                                placeholder='Enter Difficulty' /> */}
                             <Select
                                 onChange={handleSelectChange}
                                 value={difficulty}

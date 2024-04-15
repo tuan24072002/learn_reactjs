@@ -34,6 +34,7 @@ const TableQuiz = (props) => {
                         }) : isLoading ? <tr><td colSpan={5}><span className='text-secondary fw-bold'>Loading...</span><ImSpinner10 className="loader-icon" /></td></tr> : <tr><td colSpan={5} className='text-danger fw-bold'>Not found data</td></tr>
                     }
                 </tbody>
+
                 <ModalDeleteQuiz show={showDelete} loadDataQuiz={loadDataQuiz} setShow={setShowDelete} dataDelete={dataDelete} />
             </table>
         </>

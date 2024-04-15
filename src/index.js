@@ -10,6 +10,8 @@ import 'react-pro-sidebar/dist/css/styles.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import 'nprogress/nprogress.css'
+import 'react-perfect-scrollbar/dist/css/styles.css';
+import 'react-18-image-lightbox/style.css';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
