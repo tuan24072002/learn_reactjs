@@ -3,7 +3,7 @@ import ModalDeleteUser from './ModalDeleteUser';
 import ReactPaginate from 'react-paginate'
 import { ImSpinner10 } from "react-icons/im";
 const TableUserPaginate = (props) => {
-    const { isLoading, pageCount, loadUser, setPage, user, handleClickUpdateUser, handleClickDeleteUser, handleClickViewUser, showDelete, setShowDelete, dataDelete } = props
+    const { t, isLoading, pageCount, loadUser, setPage, user, handleClickUpdateUser, handleClickDeleteUser, handleClickViewUser, showDelete, setShowDelete, dataDelete } = props
 
     const handlePageClick = async (event) => {
         setPage(+event.selected + 1);
@@ -15,9 +15,9 @@ const TableUserPaginate = (props) => {
                     <tr>
                         <th scope='col'>ID</th>
                         <th scope='col'>Email</th>
-                        <th scope='col'>Username</th>
-                        <th scope='col'>Role</th>
-                        <th scope='col'>Action</th>
+                        <th scope='col'>{t(`users.username`)}</th>
+                        <th scope='col'>{t(`users.role`)}</th>
+                        <th scope='col'>{t(`users.action`)}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,9 +30,9 @@ const TableUserPaginate = (props) => {
                                     <td>{data.username}</td>
                                     <td>{data.role}</td>
                                     <td className="d-flex gap-2 justify-content-center">
-                                        <button className="btn btn-secondary" onClick={() => handleClickViewUser(data)}>View</button>
-                                        <button className="btn btn-success mx-3" onClick={() => handleClickUpdateUser(data)}>Update</button>
-                                        <button className="btn btn-danger" onClick={() => handleClickDeleteUser(data)}>Delete</button>
+                                        <button className="btn btn-secondary" onClick={() => handleClickViewUser(data)}>{t(`users.view`)}</button>
+                                        <button className="btn btn-success mx-3" onClick={() => handleClickUpdateUser(data)}>{t(`users.update`)}</button>
+                                        <button className="btn btn-danger" onClick={() => handleClickDeleteUser(data)}>{t(`users.delete`)}</button>
                                     </td>
                                 </tr>
 

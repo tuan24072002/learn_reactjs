@@ -2,17 +2,17 @@ import React from 'react'
 import { ImSpinner10 } from "react-icons/im";
 import ModalDeleteQuiz from './ModalDeleteQuiz';
 const TableQuiz = (props) => {
-    const { loadDataQuiz, dataQuiz, isLoading, handleClickUpdateQuiz, handleClickViewQuiz, handleClickDeleteQuiz, showDelete, setShowDelete, dataDelete } = props;
+    const { t, loadDataQuiz, dataQuiz, isLoading, handleClickUpdateQuiz, handleClickViewQuiz, handleClickDeleteQuiz, showDelete, setShowDelete, dataDelete } = props;
     return (
         <>
             <table className="table table-hover table-bordered">
                 <thead>
                     <tr>
                         <th scope='col'>ID</th>
-                        <th scope='col'>Name</th>
-                        <th scope='col'>Description</th>
-                        <th scope='col'>Difficulty</th>
-                        <th scope='col'>Action</th>
+                        <th scope='col'>{t(`quizzes.name`)}</th>
+                        <th scope='col'>{t(`quizzes.description`)}</th>
+                        <th scope='col'>{t(`quizzes.difficulty`)}</th>
+                        <th scope='col'>{t(`quizzes.action`)}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -24,10 +24,10 @@ const TableQuiz = (props) => {
                                     <td>{item.name}</td>
                                     <td>{item.description}</td>
                                     <td>{item.difficulty}</td>
-                                    <td className="d-flex gap-2 justify-content-center">
-                                        <button className="btn btn-secondary" onClick={() => handleClickViewQuiz(item)}>View</button>
-                                        <button className="btn btn-success mx-3" onClick={() => handleClickUpdateQuiz(item)}>Update</button>
-                                        <button className="btn btn-danger" onClick={() => handleClickDeleteQuiz(item)}>Delete</button>
+                                    <td className="d-flex gap-2 justify-content-center align-items-center">
+                                        <button className="btn btn-secondary" onClick={() => handleClickViewQuiz(item)}>{t(`users.view`)}</button>
+                                        <button className="btn btn-success mx-3" onClick={() => handleClickUpdateQuiz(item)}>{t(`users.update`)}</button>
+                                        <button className="btn btn-danger" onClick={() => handleClickDeleteQuiz(item)}>{t(`users.delete`)}</button>
                                     </td>
                                 </tr>
                             )

@@ -1,9 +1,10 @@
 import axios from '../utils/axiosCustomize'
-
-
 //Admin
 const getAllUser = () => {
     return axios.get('api/v1/participant/all')
+}
+const getDashBoardOverview = () => {
+    return axios.get(`api/v1/overview`)
 }
 const getUserPaginate = (page, limit) => {
     return axios.get(`api/v1/participant?page=${page}&limit=${limit}`)
@@ -37,6 +38,12 @@ const postLogin = (email, password) => {
 const postRegister = (email, password, username) => {
     return axios.post('api/v1/register', { email, password, username })
 }
+const postLogout = (email, refreshToken) => {
+    return axios.post(`api/v1/logout`, {
+        email: email,
+        refresh_token: refreshToken
+    })
+}
 
 //Quiz
 const getQuizByUser = () => {
@@ -44,6 +51,9 @@ const getQuizByUser = () => {
 }
 const getDetailQuiz = (id) => {
     return axios.get(`api/v1/questions-by-quiz?quizId=${id}`);
+}
+const getQuizWithQA = (id) => {
+    return axios.get(`api/v1/quiz-with-qa/${id}`);
 }
 const postSubmitQuiz = (data) => {
     return axios.post(`api/v1/quiz-submit`, { ...data });
@@ -71,6 +81,42 @@ const putUpdateQuiz = (id, description, name, difficulty, quizImage) => {
 const deleteQuiz = (quizId) => {
     return axios.delete(`api/v1/quiz/${quizId}`);
 }
+const postAssignQuizToUser = (quizId, userId) => {
+    return axios.post('api/v1/quiz-assign-to-user', { quizId, userId })
+}
+//////Upsert = update + insert
+const postUpsertQA = (data) => {
+    return axios.post(`api/v1/quiz-upsert-qa`, { ...data })
+}
+//Question
+const postQuestionForQuiz = (quiz_id, description, questionImage) => {
+    const data = new FormData();
+    data.append('quiz_id', quiz_id);
+    data.append('description', description);
+    data.append('questionImage', questionImage);
+    return axios.post(`api/v1/question`, data)
+}
+
+//Answer
+const postCreateNewAnswerForQuestion = (description, correct_answer, question_id) => {
+    return axios.post(`api/v1/answer`, {
+        description, correct_answer, question_id
+    })
+}
+
+//User
+const postUpdateUser = (username, userImage) => {
+    const data = new FormData();
+    data.append(`username`, username);
+    data.append(`userImage`, userImage);
+    return axios.post(`api/v1/profile`, data)
+}
+const postChangePasswordUser = (current_password, new_password) => {
+    return axios.post(`api/v1/change-password`, { current_password, new_password })
+}
+const getHistory = () => {
+    return axios.get(`api/v1/history`);
+}
 export {
     postCreateUser,
     getAllUser,
@@ -86,4 +132,14 @@ export {
     getAllQuiz,
     putUpdateQuiz,
     deleteQuiz,
+    postQuestionForQuiz,
+    postCreateNewAnswerForQuestion,
+    postAssignQuizToUser,
+    getQuizWithQA,
+    postUpsertQA,
+    postLogout,
+    getDashBoardOverview,
+    postUpdateUser,
+    postChangePasswordUser,
+    getHistory
 }

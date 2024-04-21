@@ -5,7 +5,9 @@ import { FcPlus } from "react-icons/fc";
 import { getUserPaginate } from "../../../../services/apiServices";
 // import TableUser from "./TableUser";
 import TableUserPaginate from "./TableUserPaginate";
+import { useTranslation } from "react-i18next";
 const ManageUser = () => {
+    const { t } = useTranslation();
     const [stateModal, setStateModal] = useState('');
     const [show, setShow] = useState(false);
     const [showDelete, setShowDelete] = useState(false);
@@ -57,14 +59,14 @@ const ManageUser = () => {
     return (
         <div className='manage-user-container'>
             <div className='title'>
-                Manage Users
+                {t(`sidebar.manage-users`)}
             </div>
             <div className='user-content'>
                 <div className="btn-add-new">
-                    <button className="btn btn-primary d-flex align-items-center gap-1" onClick={() => { setShow(true); setStateModal('ADD'); }}><FcPlus /> Add new user</button>
+                    <button className="btn btn-primary d-flex align-items-center gap-1" onClick={() => { setShow(true); setStateModal('ADD'); }}><FcPlus /> {t(`users.add`)}</button>
                 </div>
                 <div className="table-users-container text-center">
-                    <TableUserPaginate isLoading={isLoading} pageCount={pageCount} loadUser={loadUserPaginate} setPage={setPage} user={user} handleClickViewUser={handleClickViewUser} handleClickUpdateUser={handleClickUpdateUser} handleClickDeleteUser={handleClickDeleteUser} setShowDelete={setShowDelete} showDelete={showDelete} dataDelete={dataDelete} />
+                    <TableUserPaginate t={t} isLoading={isLoading} pageCount={pageCount} loadUser={loadUserPaginate} setPage={setPage} user={user} handleClickViewUser={handleClickViewUser} handleClickUpdateUser={handleClickUpdateUser} handleClickDeleteUser={handleClickDeleteUser} setShowDelete={setShowDelete} showDelete={showDelete} dataDelete={dataDelete} />
                 </div>
                 <ModalUser show={show} setShow={setShow} loadUser={loadUserPaginate} stateModal={stateModal} dataUpdate={dataUpdate} resetDataUpdate={resetDataUpdate} dataView={dataView} setPage={setPage} />
             </div>

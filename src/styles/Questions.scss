@@ -7,6 +7,14 @@
     }
     .add-new-question{
         .question-content{
+            .image-name{
+                font-weight: 600;
+                cursor: pointer;
+                color: blue;
+                &:hover{
+                    color: red;
+                }
+            }
             .group-upload{
                 display: flex;
                 align-items: center;

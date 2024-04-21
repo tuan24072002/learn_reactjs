@@ -12,7 +12,9 @@ import { MdDashboard } from "react-icons/md";
 import { FaGem, FaGithub } from 'react-icons/fa';
 import sidebarBg from '../../assets/images/bg2.png';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 const SideBar = (props) => {
+    const { t } = useTranslation();
     const { collapsed, toggled, handleToggleSidebar } = props;
     return (
         <>
@@ -36,8 +38,8 @@ const SideBar = (props) => {
                             whiteSpace: 'nowrap',
                         }}
                     >
-                        <DiReact size={"3em"} color='00bfff' />
-                        <Link to={'/'} className='text-decoration-none text-light'><span>Quiz Exam</span></Link>
+                        <Link to={'/'} className='text-decoration-none text-light'><DiReact size={"3em"} color='00bfff' className='icon-brand' />
+                            <span>{t(`header.brand`)}</span></Link>
                     </div>
                 </SidebarHeader>
 
@@ -45,21 +47,21 @@ const SideBar = (props) => {
                     <Menu iconShape="circle">
                         <MenuItem
                             icon={<MdDashboard />}
-                            suffix={<span className="badge red">Main</span>}
+                            suffix={<span className="badge red">{t(`sidebar.dashboard_1`)}</span>}
                         >
-                            Dash board
+                            {t(`sidebar.dashboard`)}
                             <Link to={'/admins'} />
                         </MenuItem>
                     </Menu>
                     <Menu iconShape="circle">
                         <SubMenu
-                            title={"Features"}
+                            title={t(`sidebar.features`)}
                             icon={<FaGem />}
                             defaultOpen
                         >
-                            <MenuItem>Manage Users<Link to={'/admins/manage-users'} /></MenuItem>
-                            <MenuItem>Manage Quizzes<Link to={'/admins/manage-quizzes'} /></MenuItem>
-                            <MenuItem>Manage Questions<Link to={'/admins/manage-questions'} /></MenuItem>
+                            <MenuItem>{t(`sidebar.manage-users`)}<Link to={'/admins/manage-users'} /></MenuItem>
+                            <MenuItem>{t(`sidebar.manage-quizzes`)}<Link to={'/admins/manage-quizzes'} /></MenuItem>
+                            <MenuItem>{t(`sidebar.manage-questions`)}<Link to={'/admins/manage-questions'} /></MenuItem>
                         </SubMenu>
                     </Menu>
                 </SidebarContent>
@@ -79,7 +81,7 @@ const SideBar = (props) => {
                         >
                             <FaGithub size={"1em"} />
                             <span style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
-                                View Source
+                                {t(`sidebar.view-source`)}
                             </span>
                         </a>
                     </div>

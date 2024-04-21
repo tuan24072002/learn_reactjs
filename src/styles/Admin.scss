@@ -37,15 +37,24 @@
     .admin-content{
       width: 100%;
       .admin-header{
-        height: 40px;
-        border: 2px solid black;
-        border-radius: 5px;
-        width: fit-content;
-        margin: 10px;
-        padding: 5px 20px;
-        cursor: pointer;
-        &:hover{
-          background-color: #ccc;
+        align-items: center;
+        display: flex;
+        padding: 10px 50px 10px 10px;
+        .icon-bars{
+          height: 40px;
+          border: 2px solid black;
+          border-radius: 5px;
+          width: fit-content;
+          padding: 5px 20px;
+          cursor: pointer;
+          &:hover{
+            border: 2px solid #ccc;
+            background-color: #ccc;
+          }
+        }
+        .setting{
+          width: 100%;
+          justify-content: flex-end;
         }
       }
       .admin-main{

@@ -1,0 +1,115 @@
+{
+    "header": {
+        "brand": "Bài thi trắc nghiệm",
+        "nav1": "Trang chủ",
+        "nav2": "Người dùng",
+        "nav3": "Quản trị",
+        "login": "Đăng nhập",
+        "logout": "Đăng xuất",
+        "signup": "Đăng ký",
+        "profile": "Thông tin cá nhân",
+        "language": "Ngôn ngữ"
+    },
+    "homepage": {
+        "title1": "Tạo các biểu mẫu<br/>đáng để điền vào",
+        "title2": "Nhận được nhiều dữ liệu hơn—như đăng ký, phản hồi và bất kỳ điều gì khác—với các biểu mẫu được thiết kế <b>hoàn toàn khác biệt.</b>",
+        "title3_1": "Làm trắc nghiệm bây giờ",
+        "title3_2": "Bắt đầu - hoàn toàn miễn phí"
+    },
+    "sidebar": {
+        "dashboard": "Bảng điều khiển",
+        "dashboard_1": "Chủ yếu",
+        "features": "Tính năng",
+        "manage-users": "Quản lý người dùng",
+        "manage-quizzes": "Quản lý bài trắc nghiệm",
+        "manage-questions": "Quản lý câu hỏi",
+        "view-source": "Xem nguồn"
+    },
+    "admin": {
+        "dashboard-title": "Trang thống kê",
+        "total-users": "Số người dùng",
+        "total-quizzes": "Số bài trắc nghiệm",
+        "total-questions": "Số câu hỏi",
+        "total-answers": "Số câu trả lời",
+        "quizzes": "Bài trắc nghiệm",
+        "questions": "Câu hỏi",
+        "answers": "Câu trả lời",
+        "users": "Người dùng"
+    },
+    "quizzes": {
+        "updateqaquizzes": "Cập nhật câu hỏi & câu trả lời bài trắc nghiệm",
+        "assign": "Gắn cho người dùng",
+        "name": "Tên",
+        "description": "Mô tả",
+        "difficulty": "Độ khó",
+        "action": "Hành động",
+        "add": "Thêm bài trắc nghiệm mới",
+        "select": "Chọn bài thi",
+        "select-user": "Chọn người dùng",
+        "add-question": "Thêm câu hỏi",
+        "upload": "0 tệp được tải lên",
+        "back": "Trở về",
+        "next": "Tiếp theo",
+        "finish": "Hoàn thành",
+        "description-quiz-1": "Mô tả của câu hỏi thứ",
+        "description-quiz-2": "",
+        "description-answer": "Câu trả lời thứ",
+        "save": "Lưu",
+        "create": "Tạo",
+        "close": "Đóng",
+        "yes": "Có",
+        "assign-button": "Gắn"
+    },
+    "users": {
+        "username": "Tài khoản",
+        "role": "Quyền",
+        "action": "Hành động",
+        "view": "Xem",
+        "update": "Sửa",
+        "delete": "Xóa",
+        "add": "Thêm người dùng mới",
+        "quiz": "Bài thi",
+        "start": "Làm ngay",
+        "upload": "Tải hình ảnh lên",
+        "dropfile": "Kéo và thả tệp ở đây, hoặc click để chọn tệp",
+        "enter-email": "Điền email",
+        "enter-password": "Điền mật khẩu",
+        "enter-username": "Điền tài khoản",
+        "delete-user": "Xóa người dùng",
+        "q-delete": "Bạn có chắc xóa người dùng này không?",
+        "update-user": "Cập nhật người dùng",
+        "view-user": "Xem người dùng"
+    },
+    "login": {
+        "title": "Xin chào, đây là ai vậy?",
+        "password": "Mật khẩu",
+        "forgot": "Bạn quên mật khẩu à ?",
+        "login": "Đăng nhập",
+        "back": "Trở về trang chủ",
+        "signup": "Đăng ký",
+        "signup-title": "Bạn chưa có tài khoản sao?"
+    },
+    "signup": {
+        "login-title": "Bạn đã có tài khoản?",
+        "title": "Nhận dữ liệu tốt hơn với các biểu mẫu đàm thoại, khảo sát,<br/>câu đố, v.v.",
+        "standard": "Bạn đã chấp nhận các chính sách và tiêu chuẩn của chúng tôi"
+    },
+    "result": {
+        "title": "Kết quả của bạn",
+        "appease": "Thời gian làm bài thi đã hết ... Chúc bạn may mắn lần sau",
+        "total-questions": "Tổng câu hỏi",
+        "total-correct-answers": "Tổng câu đúng",
+        "your-score": "Điểm của bạn",
+        "infor-congra": "Chúc mừng, bài thi của bạn đã đậu!",
+        "infor-sorry": "Xin lỗi, bạn đã thi rớt!",
+        "hide": "Ẩn câu trả lời",
+        "show": "Hiện câu trả lời"
+    },
+    "warning": {
+        "title": "Cảnh báo",
+        "content-1": "Bài thi của bạn chưa xong",
+        "content-2": "chưa xong",
+        "content-3": "Bạn có muốn nộp bài thi không?",
+        "submit": "Nộp"
+    }
+}

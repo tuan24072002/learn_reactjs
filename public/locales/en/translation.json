@@ -1,0 +1,114 @@
+{
+    "header": {
+        "brand": "Quiz Exam",
+        "nav1": "Home",
+        "nav2": "User",
+        "nav3": "Admin",
+        "login": "log in",
+        "logout": "Log out",
+        "signup": "Sign up",
+        "profile": "Profile",
+        "language": "Language"
+    },
+    "homepage": {
+        "title1": "Make forms<br/>worth filling out",
+        "title2": "Get more data—like signups, feedback, and anything else—with forms designed to be <b>refreshingly different.</b>",
+        "title3_1": "Doing Quiz Now",
+        "title3_2": "Get started - it's free"
+    },
+    "sidebar": {
+        "dashboard": "Dash board",
+        "dashboard_1": "Main",
+        "features": "Features",
+        "manage-users": "Manage Users",
+        "manage-quizzes": "Manage Quizzes",
+        "manage-questions": "Manage Questions",
+        "view-source": "View Source"
+    },
+    "admin": {
+        "dashboard-title": "Analytics Dashboard",
+        "total-users": "Total Users",
+        "total-quizzes": "Total Quizzes",
+        "total-questions": "Total Questions",
+        "total-answers": "Total Answers",
+        "quizzes": "Quizzes",
+        "Questions": "Questions",
+        "Answers": "Answers",
+        "Users": "Users"
+    },
+    "quizzes": {
+        "updateqaquizzes": "Update Q & A Quizzes",
+        "assign": "Assign to User",
+        "name": "Name",
+        "description": "Description",
+        "difficulty": "Difficulty",
+        "action": "Action",
+        "add": "Add new quiz",
+        "select": "Select Quiz",
+        "add-question": "Add Questions",
+        "upload": "0 file is uploaded",
+        "back": "Back",
+        "next": "Next",
+        "finish": "Finish",
+        "description-quiz-1": "Question",
+        "description-quiz-2": "'s Description",
+        "description-answer": "Answer",
+        "save": "Save",
+        "create": "Create",
+        "close": "Close",
+        "yes": "Yes",
+        "assign-button": "Gắn"
+    },
+    "users": {
+        "username": "Username",
+        "role": "Role",
+        "action": "Action",
+        "view": "View",
+        "update": "Update",
+        "delete": "Delete",
+        "add": "Add new user",
+        "quiz": "Quiz",
+        "start": "Start Now",
+        "upload": "Upload Image",
+        "dropfile": "Drag & drop a file here, or click to select files",
+        "enter-email": "Enter email",
+        "enter-password": "Enter password",
+        "enter-username": "Enter username",
+        "delete-user": "Delete user",
+        "q-delete": "Are you sure delete this user?",
+        "update-user": "Update user",
+        "view-user": "View user"
+    },
+    "login": {
+        "title": "Hello, who’s this?",
+        "password": "Password",
+        "forgot": "Forgot password ?",
+        "login": "Login",
+        "back": "Go to Homepage",
+        "signup": "Sign up",
+        "signup-title": "Don't have an account yet?"
+    },
+    "signup": {
+        "login-title": "Already have an account?",
+        "title": "Get better data with conversational forms, surveys,<br/>quizzes & more.",
+        "standard": "You have accepted our policies and standards"
+    },
+    "result": {
+        "title": "Your result",
+        "appease": "Exam time is over ... Good luck next time",
+        "total-questions": "Total questions",
+        "total-correct-answers": "Total correct questions",
+        "your-score": "Your score",
+        "infor-congra": "Congratulations, your exam is passed!",
+        "infor-sorry": "Sorry, your exam is failed!",
+        "hide": "Hide answers",
+        "show": "Show answers"
+    },
+    "warning": {
+        "title": "Warning",
+        "content-1": "Your exam has not been completed",
+        "content-2": "have not been done yet",
+        "content-3": "Do you wanna submit your exam?",
+        "submit": "Submit"
+    }
+}

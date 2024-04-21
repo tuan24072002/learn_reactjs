@@ -3,7 +3,10 @@ import { getQuizByUser } from '../../services/apiServices';
 import '../../styles/ListQuiz.scss'
 import { useNavigate } from 'react-router-dom'
 import Loading from '../LoadingFetch';
+import { useTranslation } from 'react-i18next';
+
 const ListQuiz = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [arrQuiz, setArrQuiz] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -29,11 +32,11 @@ const ListQuiz = () => {
                                     <img src={`data:image/jpeg;base64,${data.image}`} alt="..." />
                                 </div>
                                 <div className="card-body">
-                                    <h5 className="card-title">Quiz {index + 1}</h5>
+                                    <h5 className="card-title">{t(`users.quiz`)} {index + 1}</h5>
                                     <p className="card-text">{data.description}</p>
                                     <button
                                         onClick={() => navigate(`/quiz/${data.id}`, { state: { quizTitle: data.description } })}
-                                        className="btn btn-primary btn-start-now">Start Now</button>
+                                        className="btn btn-primary btn-start-now">{t(`users.start`)}</button>
                                 </div>
                             </div>
                         )

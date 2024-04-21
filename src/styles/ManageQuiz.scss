@@ -1,12 +1,7 @@
 .manage-quiz-container{
     padding: 10px;
-    .title{
-        font-weight: 600;
-        font-size: 20px;
-    }
-    .quiz-content{
-        .btn-add-new{
-            margin: 15px 0;
-        }
+    button.accordion-button.collapsed {
+        font-weight: bold;
+        color: rgb(74, 93, 206);
     }
 }

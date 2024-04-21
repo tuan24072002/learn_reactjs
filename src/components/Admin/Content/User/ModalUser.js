@@ -8,6 +8,7 @@ import { useDropzone } from 'react-dropzone';
 import { toast } from 'react-toastify';
 import { postCreateUser, putUpdateUser } from '../../../../services/apiServices';
 import _ from 'lodash';
+import { useTranslation } from 'react-i18next';
 function ModalUser(props) {
     const { show, setShow, loadUser, stateModal, dataUpdate, resetDataUpdate, dataView } = props;
     const handleClose = () => {
@@ -20,6 +21,7 @@ function ModalUser(props) {
         setUsername("");
         resetDataUpdate();
     };
+    const { t } = useTranslation();
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -120,7 +122,7 @@ function ModalUser(props) {
                 <Modal.Header>
                     <Modal.Title className={`fw-bold ${stateModal === 'ADD' ? 'alert alert-primary w-100' : stateModal === 'UPDATE' ? 'alert alert-success w-100' : 'alert alert-secondary w-100'}`}>
                         {
-                            stateModal !== '' && stateModal === 'ADD' ? "Add new user" : stateModal !== '' && stateModal === 'UPDATE' ? "Update user" : stateModal !== '' && stateModal === 'VIEW' ? "View user" : ""
+                            stateModal !== '' && stateModal === 'ADD' ? t(`users.add`) : stateModal !== '' && stateModal === 'UPDATE' ? t(`users.update-user`) : stateModal !== '' && stateModal === 'VIEW' ? t(`users.view-user`) : ""
                         }
                     </Modal.Title>
                 </Modal.Header>
@@ -133,32 +135,32 @@ function ModalUser(props) {
                                 className="form-control"
                                 value={email}
                                 disabled={stateModal === 'ADD' ? false : true}
-                                placeholder='Enter email'
+                                placeholder={t(`users.enter-email`)}
                                 onChange={(e) => setEmail(e.target.value)} />
                         </div>
                         {
                             stateModal === 'ADD' &&
                             <div className="col-md-6">
-                                <label className="form-label">Password</label>
+                                <label className="form-label">{t(`login.password`)}</label>
                                 <input
                                     type="password"
                                     className="form-control"
                                     value={password}
-                                    placeholder='Enter password'
+                                    placeholder={t(`users.enter-password`)}
                                     onChange={(e) => setPassword(e.target.value)} />
                             </div>
                         }
                         <div className="col-md-6">
-                            <label className="form-label">Username</label>
+                            <label className="form-label">{t(`users.username`)}</label>
                             <input
                                 type="text"
                                 className="form-control"
                                 value={username}
-                                placeholder='Enter username'
+                                placeholder={t(`users.enter-username`)}
                                 onChange={(e) => setUsername(e.target.value)} />
                         </div>
                         <div className="col-md-6">
-                            <label className="form-label">Role</label>
+                            <label className="form-label">{t(`users.role`)}</label>
                             <select className="form-select"
                                 disabled={stateModal !== 'VIEW' ? false : true}
                                 value={role}
@@ -169,7 +171,7 @@ function ModalUser(props) {
                         </div>
                         {
                             stateModal !== '' && stateModal !== 'VIEW' && <div className='col-md-12'>
-                                <label className="form-label label-upload" htmlFor='Upload'><FcPlus /> Upload Image</label>
+                                <label className="form-label label-upload" htmlFor='Upload'><FcPlus /> {t(`users.upload`)}</label>
                                 <input
                                     type='file'
                                     id='Upload'
@@ -188,7 +190,7 @@ function ModalUser(props) {
                                 <span>
                                     <FaCloudUploadAlt size={'3em'} />
                                     <br />
-                                    Drag & drop a file here, or click to select files
+                                    {t(`users.dropfile`)}
                                 </span>
                             )}
 
@@ -197,7 +199,7 @@ function ModalUser(props) {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
-                        Close
+                        {t(`quizzes.close`)}
                     </Button>
                     {
                         stateModal !== '' && stateModal !== 'VIEW' && <Button variant="primary" onClick={() => {
@@ -207,7 +209,7 @@ function ModalUser(props) {
                                 handleSubmitUpdateUser()
                         }}>
                             {
-                                stateModal === 'ADD' ? "Create" : "Save"
+                                stateModal === 'ADD' ? t(`quizzes.create`) : t(`quizzes.save`)
                             }
                         </Button>
                     }

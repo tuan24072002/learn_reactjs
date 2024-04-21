@@ -1,3 +1,18 @@
+.header-detail-quiz{
+    display: flex;
+    // padding: 50px 0 0 50px;
+    justify-content: space-between;
+    align-items: center;
+    .breadcrumb-nav{
+        margin-left: 50px;
+        margin-top: 10px;
+    }
+    .language{
+        padding-right: 50px;
+        display: flex;
+        justify-content: flex-end;
+    }
+}
 .detail-quiz-container{
     display: flex;
     gap: 20px;
@@ -24,12 +39,29 @@
                 img{
                     max-width: 100%;
                     max-height: 100%;
+                    cursor: pointer;
                 }
             }
             .answer{
                 .answer-child{
-                    text-align: left;
-                    padding-left: 50px;
+                    .form-check{
+                        margin: 10px 50px;
+                        border: 1px solid #ccc;
+                        text-align: center;
+                        cursor: pointer;
+                        padding: 5px 50px;
+                        border-radius: 5px;
+                        input{
+                            font-size: 1.1rem;
+                        }
+                        &:hover label{
+                            color: red;
+                        }
+                        label{
+                            font-size: 1.1rem;
+                            cursor: pointer;
+                        }
+                    }
                 }
             }
         }
@@ -55,6 +87,38 @@
         border-radius: 5px;
         padding: 20px;
         position: relative;
+        .main-timer{
+            font-weight: 600;
+            font-size: 20px;
+            text-align: center;
+        }
+        .main-question{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            width: 100%;
+            .question{
+                border: 1px solid #ccc;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                cursor: pointer;
+                font-weight: 600;
+                &:hover{
+                    color: red;
+                }
+                &.selected{
+                    background-color: #d6d6d6;
+                }
+            }
+            .question.active{
+                border: 1px solid red;
+                color: red;
+            }
+        }
         .footer{
             position: absolute;
             bottom: 0;

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import NProgress from 'nprogress';
 import { store } from '../redux/store';
+
 NProgress.configure({
     showSpinner: false,
     trickleSpeed: 50,
@@ -23,6 +24,10 @@ instance.interceptors.response.use(function (response) {
     NProgress.done();
     return response && response.data ? response.data : response;
 }, function (error) {
+    //token expired: EC === 999
+    if (error.response && error.response.data && error.response.data.EM === 'Not authenticated the user') {
+        console.log('haha');
+    }
     return error && error.response && error.response.data ? error.response.data : Promise.reject(error);
 });
 

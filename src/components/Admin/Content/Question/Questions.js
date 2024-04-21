@@ -1,40 +1,110 @@
 import Select from 'react-select';
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import '../../../../styles/Questions.scss'
 import { FaPlusCircle, FaMinusCircle, FaMinusSquare, FaPlusSquare, FaImage } from "react-icons/fa";
 import { v4 } from 'uuid';
 import _ from 'lodash';
 import { toast } from 'react-toastify';
 import Lightbox from 'react-18-image-lightbox';
-const options = [
-    { value: 'EASY', label: 'EASY' },
-    { value: 'MEDIUM', label: 'MEDIUM' },
-    { value: 'HARD', label: 'HARD' }
-]
-const Questions = () => {
-    const [selectedQuiz, setSelectedQuiz] = useState({});
+import { getAllQuiz, postQuestionForQuiz, postCreateNewAnswerForQuestion, getQuizWithQA, postUpsertQA } from '../../../../services/apiServices';
+import { useTranslation } from 'react-i18next';
+const initQuestions = [{
+    id: v4(),
+    description: '',
+    imageFile: '',
+    imageName: '',
+    answers: [
+        {
+            id: v4(),
+            description: '',
+            isCorrect: false,
+        }
+    ]
+}]
+const Questions = (props) => {
+    const { component, loadAllDataQuizFromQuizzes, listQuizFromQuizzes } = props
     const [open, setOpen] = useState(false);
+    const { t } = useTranslation();
+    const [listQuiz, setListQuiz] = useState([]);
+    const [selectedQuiz, setSelectedQuiz] = useState({});
+    const [isSubmit, setIsSubmit] = useState(false);
     const [dataImagePreview, setDataImagePreview] = useState({
         url: '',
         title: '',
     })
-    const [questions, setQuestions] = useState([
-        {
-            id: v4(),
-            description: '',
-            imageFile: '',
-            imageName: '',
-            answers: [
-                {
-                    id: v4(),
-                    description: '',
-                    isCorrect: false
+    const initSelect = [{ value: "", label: `${t(`quizzes.select`)}...` }]
+    const [questions, setQuestions] = useState(initQuestions)
+
+    const loadDataQuiz = async () => {
+        let res = await getAllQuiz();
+        if (res && res.EC === 0) {
+            let newQuiz = res.DT.map((item) => {
+                return {
+                    value: item.id,
+                    label: `${item.id} - ${item.name}`
                 }
-            ]
+            })
+            setListQuiz(newQuiz);
         }
-    ])
-    const handleSelectQuiz = () => {
-        setSelectedQuiz({})
+        if (res && res.EC !== 0) {
+            toast.error('Something wrong...');
+        }
+    }
+    useEffect(() => {
+        if (!component) {
+            loadDataQuiz();
+        } else {
+            loadAllDataQuizFromQuizzes();
+        }
+    }, [loadAllDataQuizFromQuizzes, component])
+    const base64ToFileObject = (url, filename, mimeType) => {
+        if (url.startsWith('data:')) {
+            var arr = url.split(','),
+                mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[arr.length - 1]),
+                n = bstr.length,
+                u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            var file = new File([u8arr], filename, { type: mime || mimeType });
+            return Promise.resolve(file);
+        }
+        return fetch(url)
+            .then(res => res.arrayBuffer())
+            .then(buf => new File([buf], filename, { type: mimeType }));
+    }
+    const fileObjectToBase64 = (file) => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+    });
+    const loadDataQA = useCallback(async (quizId) => {
+        let res = await getQuizWithQA(quizId);
+        if (res && res.EC === 0) {
+            //convert base 64 to file object
+            let newQA = []
+
+            for (let i = 0; i < res.DT.qa.length; i++) {
+                let q = res.DT.qa[i]
+                if (q.imageFile) {
+                    q.imageFile = await base64ToFileObject(`data:image/png;base64,${q.imageFile}`, `question-${q.id}.png`, 'image/png');
+                    q.imageName = q.imageFile.name;
+                }
+                newQA.push(q);
+            }
+            setQuestions(newQA);
+        }
+    }, [])
+
+    useEffect(() => {
+        if (component && !_.isEmpty(selectedQuiz)) {
+            loadDataQA(selectedQuiz.value);
+        }
+    }, [component, selectedQuiz, loadDataQA])
+    const handleSelectQuiz = (e) => {
+        setSelectedQuiz(e);
     }
     const handleAddRemoveQuestion = (type, id) => {
         if (type === 1) {
@@ -111,56 +181,145 @@ const Questions = () => {
             }
         }
     }
-    const handleSubmitQuestionForQuiz = () => {
-        // console.log(questions);
-        questions.map(question => {
-            if (question.description === '') {
-                toast.error('Invalid Question Description');
-                return <></>
+    const handleSubmitQuestionForQuiz = async () => {
+        setIsSubmit(true)
+        let isValidAnswer = true, isValidQuestion = true;
+        let countIsCorrect = 0;
+        for (let i = 0; i < questions.length; i++) {
+            if (questions[i].description === '') {
+                isValidQuestion = false;
+                break;
             }
-            else if (question.imageName === '' || question.imageFile === '') {
-                toast.error('Invalid Question Image');
-                return <></>
-            } else {
-                question.answers.map(answer => {
-                    if (answer.description === '') {
-                        toast.error('Invalid Answer Description');
-                        return <></>
+            for (let j = 0; j < questions[i].answers.length; j++) {
+                if (questions[i].answers[j].isCorrect) {
+                    countIsCorrect++;
+                }
+                if (questions[i].answers[j].description === '' || countIsCorrect === 0) {
+                    isValidAnswer = false;
+                    break;
+                }
+            }
+            if (!isValidAnswer || !isValidQuestion) {
+                break;
+            }
+        }
+        if (countIsCorrect === 0) {
+            toast.error('Please choose a correct answer !');
+            return;
+        }
+        if (!isValidQuestion || !isValidAnswer) {
+            return;
+        }
+
+        if (isValidQuestion && isValidAnswer) {
+            for (const question of questions) {
+                const q = await postQuestionForQuiz(selectedQuiz.value, question.description, question.imageFile);
+                for (const answer of question.answers) {
+                    let res = await postCreateNewAnswerForQuestion(answer.description, answer.isCorrect, q.DT.id);
+                    if (res && res.EC === 0) {
+                        toast.success('Creacted Question and Answer Successfully !!!');
+                        setQuestions(initQuestions);
                     }
-                    return <></>
-                })
-                return <></>
+                }
             }
-        })
+        }
+    }
+    const handleSubmitSaveQA = async () => {
+        setIsSubmit(true);
+        let isValidAnswer = true, isValidQuestion = true;
+        let countIsCorrect = 0;
+        let indexQuestion = 0, indexAnswer = 0;
+        for (let i = 0; i < questions.length; i++) {
+            indexQuestion = i
+            if (questions[i].description === '') {
+                isValidQuestion = false;
+                break;
+            }
+            for (let j = 0; j < questions[i].answers.length; j++) {
+                if (questions[i].answers[j].isCorrect) {
+                    countIsCorrect++;
+                }
+                if (questions[i].answers[j].description === '') {
+                    isValidAnswer = false;
+                    indexAnswer = j;
+                    break;
+                }
+            }
+            if (!isValidAnswer || !isValidQuestion) {
+                break;
+            }
+        }
+        if (countIsCorrect === 0) {
+            toast.error(`Please choose a correct question-${indexQuestion + 1} answer-${indexAnswer + 1}`);
+            return;
+        }
+        if (!isValidQuestion || !isValidAnswer) {
+            return;
+        }
+
+        if (isValidQuestion && isValidAnswer) {
+            let questionClone = _.cloneDeep(questions);
+
+            // File object to base64
+            for (let question of questionClone) {
+                if (question.imageFile) {
+                    question.imageFile = await fileObjectToBase64(question.imageFile);
+                    question.imageName = '';
+                }
+            }
+
+            let res = await postUpsertQA({
+                quizId: selectedQuiz.value,
+                questions: questionClone.map((item) => ({
+                    id: item.id,
+                    description: item.description,
+                    imageFile: item.imageFile,
+                    imageName: '',
+                    answers: item.answers.map((data) => ({
+                        id: data.id,
+                        description: data.description,
+                        isCorrect: data.isCorrect
+                    }))
+                }))
+            });
+            if (res && res.EC === 0) {
+                toast.success(res.EM);
+            } else {
+                toast.error(res.EM);
+            }
+        }
     }
     return (
         <div className='questions-container'>
-            <div className='title'>
-                Manage Questions
-            </div>
+            {
+                !component &&
+                <div className='title'>
+                    {t(`sidebar.manage-questions`)}
+                </div>
+            }
             <div className='add-new-question'>
                 <div className='col-12 form-group'>
-                    <label>Select Quiz:</label>
+                    <label>{t(`quizzes.select`)}</label>
                     <Select
-                        onChange={handleSelectQuiz}
-                        defaultValue={selectedQuiz}
-                        options={options}
+                        onChange={(e) => handleSelectQuiz(e)}
+                        defaultValue={initSelect}
+                        options={component ? listQuizFromQuizzes : listQuiz}
                         isClearable
                         isSearchable
-                        className='' />
+                        className={`form-control ${_.isEmpty(selectedQuiz) && isSubmit && 'is-invalid'}`} />
                 </div>
                 {questions && questions.length > 0 && questions.map((item, index) => {
                     return (
                         <div className='question-main mb-4' key={`questions-${index}`}>
                             <div className='mt-3 form-group question-content'>
-                                Add Questions:
+                                {t(`quizzes.add-question`)}:
                                 <div className="form-floating mb-3 col-12">
                                     <input type="text"
-                                        className="form-control"
+                                        className={`form-control ${item.description === '' && isSubmit && 'is-invalid'}`}
                                         placeholder=''
                                         value={item.description}
                                         onChange={(e) => handleOnChange('QUESTION', item.id, e.target.value)} />
-                                    <label>Question {index + 1} 's Description</label>
+                                    <label>{t(`quizzes.description-quiz-1`)} {index + 1} {t(`quizzes.description-quiz-2`)}</label>
                                 </div>
                                 <div className='d-flex col-12 justify-content-between align-items-center'>
                                     <div className='col-6 mb-3 group-upload'>
@@ -178,7 +337,7 @@ const Questions = () => {
                                                     title: item.imageName
                                                 })
                                             }
-                                        }}>{item.imageName !== '' ? item.imageName : '0 file is uploaded'}</span>
+                                        }}>{item.imageName !== '' ? <span className='image-name'>{item.imageName}</span> : t(`quizzes.upload`)}</span>
                                     </div>
                                     <div className='w-fit d-flex gap-2'>
                                         <span onClick={() => handleAddRemoveQuestion(1, item.id)}><FaPlusCircle size='2em' style={{ color: 'red' }} className='icon-action' /></span>
@@ -199,12 +358,12 @@ const Questions = () => {
                                                 onChange={(e) => handleAnswerQuestion('CHECKBOX', item.id, data.id, e.target.checked)} />
                                             <div className="form-floating col-6 answer-name">
                                                 <input type="text"
-                                                    className="form-control"
+                                                    className={`form-control ${data.description === '' && isSubmit && 'is-invalid'}`}
                                                     placeholder=''
                                                     value={data.description}
                                                     onChange={(e) => handleAnswerQuestion('INPUT', item.id, data.id, e.target.value)}
                                                 />
-                                                <label>Answer {index + 1}</label>
+                                                <label>{t(`quizzes.description-answer`)} {index + 1}</label>
                                             </div>
                                             <div className='col-3 action'>
                                                 <span><FaPlusSquare size='2em' style={{ color: 'red' }} className='icon-action' onClick={() => handleAddRemoveAnswer(1, item.id, data.id)} /></span>
@@ -220,9 +379,12 @@ const Questions = () => {
                         </div>
                     )
                 })}
-                {questions && questions.length > 0 &&
+                {questions && questions.length > 0 && component ?
                     <div>
-                        <button onClick={() => handleSubmitQuestionForQuiz()} className='btn btn-primary'>Save Question</button>
+                        <button onClick={() => handleSubmitSaveQA()} className='btn btn-success'>{t(`quizzes.save`)} Q&A</button>
+                    </div> :
+                    <div>
+                        <button onClick={() => handleSubmitQuestionForQuiz()} className='btn btn-primary'>{t(`quizzes.create`)} Q&A</button>
                     </div>
                 }
                 {

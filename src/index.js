@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import Layout from './Layout';
 import { store, persistor } from './redux/store'
 import { PersistGate } from 'redux-persist/integration/react';
+import './utils/i18n';
 import 'react-pro-sidebar/dist/css/styles.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';

@@ -6,8 +6,10 @@ import { toast } from 'react-toastify';
 import { FaEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import Language from '../Header/Language';
 const Register = (props) => {
-    // const { } = props;
+    const { t } = useTranslation();
     const isAuthenticated = useSelector(state => state.user.isAuthenticated)
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
@@ -68,11 +70,12 @@ const Register = (props) => {
     return (
         <div className='register-container'>
             <div className='header'>
-                <span>Already have an account?</span>
-                <button onClick={() => navigate('/login')}>Login</button>
+                <span>{t(`signup.login-title`)}</span>
+                <button onClick={() => navigate('/login')}>{t(`header.login`)}</button>
+                <Language />
             </div>
-            <div className='title col-4 mx-auto'><b>Quiz Exam</b></div>
-            <div className='welcome col-4 mx-auto'>Get better data with conversational forms, surveys,<br /> quizzes & more.</div>
+            <div className='title col-4 mx-auto'><b>{t(`header.brand`)}</b></div>
+            <div className='welcome col-4 mx-auto'><div dangerouslySetInnerHTML={{ __html: t('signup.title') }} /></div>
             <div className='content-form col-4 mx-auto'>
                 <div className='row'>
                     <div className='form-group col-6'>
@@ -84,7 +87,7 @@ const Register = (props) => {
                             onKeyDown={(e) => handleKeyDown(e)} />
                     </div>
                     <div className='form-group col-6'>
-                        <label>Password (*)</label>
+                        <label>{t(`login.password`)} (*)</label>
                         <div className='input-password'>
                             <input type='password'
                                 id='passwordField'
@@ -99,7 +102,7 @@ const Register = (props) => {
                     </div>
                 </div>
                 <div className='form-group col-12'>
-                    <label>Username</label>
+                    <label>{t(`users.username`)}</label>
                     <input type='text'
                         className='form-control'
                         value={username}
@@ -108,13 +111,13 @@ const Register = (props) => {
                 </div>
                 <div className='form-group col-12 d-flex gap-2'>
                     <input type='checkbox' value={check} onChange={() => setCheck(!check)} />
-                    <label>You have accepted our policies and standards</label>
+                    <label>{t(`signup.standard`)}</label>
                 </div>
                 <div>
-                    <button className='btn btn-dark' onClick={() => handleRegister()}>Sign up</button>
+                    <button className='btn btn-dark' onClick={() => handleRegister()}>{t(`header.signup`)}</button>
                 </div>
                 <div className='text-center' onClick={() => navigate("/")}>
-                    <span className='back'>&#60;&#60; Go to Homepage</span>
+                    <span className='back'>&#60;&#60; {t(`login.back`)}</span>
                 </div>
             </div>
         </div>
